@@ -1,10 +1,9 @@
-C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\obj\Debug\CSharpCalculator.csproj.AssemblyReference.cache
-C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\obj\Debug\CSharpCalculator.Properties.Resources.resources
-C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\obj\Debug\CSharpCalculator.csproj.GenerateResource.cache
-C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\obj\Debug\CSharpCalculator.csproj.CoreCompileInputs.cache
 C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\bin\Debug\CSharpCalculator.exe.config
 C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\bin\Debug\CSharpCalculator.exe
 C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\bin\Debug\CSharpCalculator.pdb
 C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\obj\Debug\CSharpCalculator.Calculator.resources
+C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\obj\Debug\CSharpCalculator.Properties.Resources.resources
+C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\obj\Debug\CSharpCalculator.csproj.GenerateResource.cache
+C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\obj\Debug\CSharpCalculator.csproj.CoreCompileInputs.cache
 C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\obj\Debug\CSharpCalculator.exe
 C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\obj\Debug\CSharpCalculator.pdb
