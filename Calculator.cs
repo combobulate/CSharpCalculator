@@ -139,7 +139,11 @@ namespace CSharpCalculator
                 // If last button pressed before this number was an operation, new button press
                 // starts a new number
             {
-                resultText.Text = buttonValue;
+                if (buttonValue != ".")
+                    resultText.Text = buttonValue;
+                else
+                    // if the new button press was a decimal, prepend the 0 for the new number
+                    resultText.Text = "0" + buttonValue;
                 lastPressOperation = false;
             }
             else if (buttonValue != ".")
