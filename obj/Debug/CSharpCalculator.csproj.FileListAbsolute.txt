@@ -7,4 +7,3 @@ C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\obj\D
 C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\obj\Debug\CSharpCalculator.csproj.CoreCompileInputs.cache
 C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\obj\Debug\CSharpCalculator.exe
 C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\obj\Debug\CSharpCalculator.pdb
-C:\Users\zeoco\OneDrive\Documents\GitHub\CSharpCalculator\CSharpCalculator\obj\Debug\CSharpCalculator.csproj.AssemblyReference.cache

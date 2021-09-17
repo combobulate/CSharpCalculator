@@ -105,7 +105,7 @@ namespace CSharpCalculator
 
         private void resetResult()
         {
-            resultText.Text = "0";
+            resultText.Text = displayResult("0");
             operation = "=";
         }
 
@@ -115,22 +115,22 @@ namespace CSharpCalculator
             switch (operation)
             {
                 case "+":
-                    total += float.Parse(resultText.Text);
+                    total += double.Parse(resultText.Text);
                     break;
                 case "-":
-                    total -= float.Parse(resultText.Text);
+                    total -= double.Parse(resultText.Text);
                     break;
                 case "*":
-                    total *= float.Parse(resultText.Text);
+                    total *= double.Parse(resultText.Text);
                     break;
                 case "/":
-                    total /= float.Parse(resultText.Text);
+                    total /= double.Parse(resultText.Text);
                     break;
                 case "=":
-                    total = float.Parse(resultText.Text);
+                    total = double.Parse(resultText.Text);
                     break;
             }
-            resultText.Text = total.ToString();
+            resultText.Text = displayResult(total.ToString());
         }
 
         private void numberButton(string buttonValue)
@@ -140,24 +140,27 @@ namespace CSharpCalculator
                 // starts a new number
             {
                 if (buttonValue != ".")
-                    resultText.Text = buttonValue;
+                    resultText.Text = displayResult(buttonValue);
                 else
                     // if the new button press was a decimal, prepend the 0 for the new number
-                    resultText.Text = "0" + buttonValue;
+                    resultText.Text = displayResult("0" + buttonValue);
                 lastPressOperation = false;
             }
-            else if (buttonValue != ".")
-                // Otherwise, if the new input is numeric:
-                if (resultText.Text == "0")
-                    // Use as the start of the new number if current number is 0
-                    resultText.Text = buttonValue;
-                else
-                    // Append to current number if current number is not 0
-                    resultText.Text = resultText.Text + buttonValue;
-            else if (!resultText.Text.Contains("."))
-                // If new input is a decimal, append to current number only if there isn't one already
-                resultText.Text = resultText.Text + buttonPeriod.Text;
-            
+            else if (resultText.Text.Replace(".","").Length < 9)
+                // Only accept new characters on the number if less than 10 digits, excluding the decimal
+            {
+                if (buttonValue != ".")
+                    // Otherwise, if the new input is numeric:
+                    if (resultText.Text == "0")
+                        // Use as the start of the new number if current number is 0
+                        resultText.Text = displayResult(buttonValue);
+                    else
+                        // Append to current number if current number is not 0
+                        resultText.Text = displayResult(resultText.Text + buttonValue);
+                else if (!resultText.Text.Contains("."))
+                    // If new input is a decimal, append to current number only if there isn't one already
+                    resultText.Text = displayResult(resultText.Text + buttonPeriod.Text);
+            }
         }
 
         private void operationButton (string opButtonValue)
@@ -167,13 +170,24 @@ namespace CSharpCalculator
             else
             {
                 // Store the current value for math
-                total = float.Parse(resultText.Text);
+                total = double.Parse(resultText.Text);
                 // Display the next operation at the end of the display string
                 resultText.Text += opButtonValue;
             }
                 
             operation = opButtonValue;
             lastPressOperation = true;
+        }
+
+        private string displayResult(string input)
+        {
+            if (input.Length > 9)
+                if (input.Contains("."))
+                    return input.Substring(0, 10);
+                else
+                    return input.Substring(0, 9);
+            else
+                return input;
         }
     }
 }
