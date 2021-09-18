@@ -8,6 +8,7 @@ namespace CSharpCalculator
         double total = 0;
         string operation = "=";
         bool lastPressOperation = true;
+        bool showHistory = true;
 
         public Calculator()
         {
@@ -112,6 +113,7 @@ namespace CSharpCalculator
         private void calculate(string operation)
         {
             // Calculates the new total and displayed result based on the last operation button pressed.
+            historyView.Items.Add(total.ToString() + operation + resultText.Text + " =");
             switch (operation)
             {
                 case "+":
@@ -131,6 +133,8 @@ namespace CSharpCalculator
                     break;
             }
             resultText.Text = displayResult(total.ToString());
+            historyView.Items.Add("             " + resultText.Text);
+            historyView.Items[historyView.Items.Count - 1].EnsureVisible();
         }
 
         private void numberButton(string buttonValue)
@@ -188,6 +192,27 @@ namespace CSharpCalculator
                     return input.Substring(0, 9);
             else
                 return input;
+        }
+
+        private void buttonHistory_Click(object sender, EventArgs e)
+        {
+            if (!showHistory)
+            {
+                this.Width = 600;
+                showHistory = true;
+                buttonHistory.Text = "Hide History";
+            }
+            else
+            {
+                this.Width = 365;
+                showHistory = false;
+                buttonHistory.Text = "Show History";
+            }
+        }
+
+        private void historyView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

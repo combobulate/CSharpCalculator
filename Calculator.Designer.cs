@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace CSharpCalculator
 {
     partial class Calculator
@@ -29,6 +30,7 @@ namespace CSharpCalculator
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("History", System.Windows.Forms.HorizontalAlignment.Left);
             this.resultText = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -47,6 +49,9 @@ namespace CSharpCalculator
             this.buttonPeriod = new System.Windows.Forms.Button();
             this.buttonClear = new System.Windows.Forms.Button();
             this.buttonEquals = new System.Windows.Forms.Button();
+            this.buttonHistory = new System.Windows.Forms.Button();
+            this.historyView = new System.Windows.Forms.ListView();
+            this.History = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // resultText
@@ -225,7 +230,7 @@ namespace CSharpCalculator
             // buttonClear
             // 
             this.buttonClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonClear.Location = new System.Drawing.Point(270, 20);
+            this.buttonClear.Location = new System.Drawing.Point(30, 420);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(50, 50);
             this.buttonClear.TabIndex = 21;
@@ -244,11 +249,48 @@ namespace CSharpCalculator
             this.buttonEquals.UseVisualStyleBackColor = true;
             this.buttonEquals.Click += new System.EventHandler(this.buttonEquals_Click);
             // 
+            // buttonHistory
+            // 
+            this.buttonHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonHistory.Location = new System.Drawing.Point(270, 20);
+            this.buttonHistory.Name = "buttonHistory";
+            this.buttonHistory.Size = new System.Drawing.Size(50, 50);
+            this.buttonHistory.TabIndex = 23;
+            this.buttonHistory.Text = "Hide History";
+            this.buttonHistory.UseVisualStyleBackColor = true;
+            this.buttonHistory.Click += new System.EventHandler(this.buttonHistory_Click);
+            // 
+            // historyView
+            // 
+            this.historyView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.History});
+            listViewGroup1.Header = "History";
+            listViewGroup1.Name = "listViewGroup1";
+            this.historyView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1});
+            this.historyView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.historyView.HideSelection = false;
+            this.historyView.Location = new System.Drawing.Point(350, 20);
+            this.historyView.Name = "historyView";
+            this.historyView.ShowGroups = false;
+            this.historyView.Size = new System.Drawing.Size(200, 450);
+            this.historyView.TabIndex = 24;
+            this.historyView.UseCompatibleStateImageBehavior = false;
+            this.historyView.View = System.Windows.Forms.View.Details;
+            this.historyView.SelectedIndexChanged += new System.EventHandler(this.historyView_SelectedIndexChanged);
+            // 
+            // History
+            // 
+            this.History.Text = "History";
+            this.History.Width = 180;
+            // 
             // Calculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(349, 431);
+            this.ClientSize = new System.Drawing.Size(584, 511);
+            this.Controls.Add(this.historyView);
+            this.Controls.Add(this.buttonHistory);
             this.Controls.Add(this.buttonEquals);
             this.Controls.Add(this.buttonClear);
             this.Controls.Add(this.buttonPeriod);
@@ -294,6 +336,9 @@ namespace CSharpCalculator
         private System.Windows.Forms.Button buttonPeriod;
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Button buttonEquals;
+        private System.Windows.Forms.Button buttonHistory;
+        private System.Windows.Forms.ListView historyView;
+        private System.Windows.Forms.ColumnHeader History;
     }
 }
 
