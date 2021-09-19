@@ -7,7 +7,7 @@ namespace CSharpCalculator
     {
         double total = 0;
         string operation = "=";
-        bool lastPressOperation = true;
+        bool lastPressOperation = false;
         bool showHistory = true;
 
         public Calculator()
@@ -79,9 +79,7 @@ namespace CSharpCalculator
 
         private void buttonEquals_Click(object sender, EventArgs e)
         {
-            calculate(operation);
-            operation = "=";
-            lastPressOperation = true;
+            operationButton(buttonEquals.Text);
         }
 
         private void buttonPlus_Click(object sender, EventArgs e)
@@ -113,7 +111,10 @@ namespace CSharpCalculator
         private void calculate(string operation)
         {
             // Calculates the new total and displayed result based on the last operation button pressed.
-            historyView.Items.Add(total.ToString() + operation + resultText.Text + " =");
+            if(operation == "=")
+                historyView.Items.Add(resultText.Text + " =");
+            else
+                historyView.Items.Add(total.ToString() + operation + resultText.Text + " =");
             switch (operation)
             {
                 case "+":
@@ -169,18 +170,33 @@ namespace CSharpCalculator
 
         private void operationButton (string opButtonValue)
         {
-            if (operation != "=")
-                calculate(operation);
-            else
+            if(!lastPressOperation | operation == "=")
+                // If the previous button pushed was a mathematical operation button, treat this as a
+                // misclick. So, only perform this behavior if the previous button was a number button,
+                // or if the previous button was an equals. For example, if the user pushes "1 + 2 = -"
+                // then this should be understood as, after pressing =, the result shows 3, so pressing -
+                // should begin a "3 - ?" operation.
             {
-                // Store the current value for math
-                total = double.Parse(resultText.Text);
-                // Display the next operation at the end of the display string
-                resultText.Text += opButtonValue;
+                if (operation != "=" | opButtonValue == "=")
+                    // If the previous operation button pressed is an arithmetic operation, or if the
+                    // current operation button pressed is the equal sign, do it. For the first case,
+                    // when someone presses "1 + 2 -", then + is the stored operation value and - is the
+                    // input opButtonValue. Then when pressing -, this will perform the "1 + 2" operation
+                    // for storage for a "3 - ?" operation. For the second case, "1 + 2 =" again has +
+                    // as the stored operation value, so this simply performs the 1 + 2 operation and
+                    // makes the result available for a future operation set by the next button press.
+                    calculate(operation);
+                else
+                {
+                    // Otherwise, just store the current value for math
+                    total = double.Parse(resultText.Text);
+                    // Display the next operation at the end of the display string
+                    resultText.Text += opButtonValue;
+                }
+
+                operation = opButtonValue;
+                lastPressOperation = true;
             }
-                
-            operation = opButtonValue;
-            lastPressOperation = true;
         }
 
         private string displayResult(string input)
