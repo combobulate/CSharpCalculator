@@ -104,38 +104,10 @@ namespace CSharpCalculator
 
         private void resetResult()
         {
-            resultText.Text = displayResult("0");
+            resultText.Text = "0";
+            total = 0;
             operation = "=";
-        }
-
-        private void calculate(string operation)
-        {
-            // Calculates the new total and displayed result based on the last operation button pressed.
-            if(operation == "=")
-                historyView.Items.Add(resultText.Text + " =");
-            else
-                historyView.Items.Add(total.ToString() + operation + resultText.Text + " =");
-            switch (operation)
-            {
-                case "+":
-                    total += double.Parse(resultText.Text);
-                    break;
-                case "-":
-                    total -= double.Parse(resultText.Text);
-                    break;
-                case "*":
-                    total *= double.Parse(resultText.Text);
-                    break;
-                case "/":
-                    total /= double.Parse(resultText.Text);
-                    break;
-                case "=":
-                    total = double.Parse(resultText.Text);
-                    break;
-            }
-            resultText.Text = displayResult(total.ToString());
-            historyView.Items.Add("             " + resultText.Text);
-            historyView.Items[historyView.Items.Count - 1].EnsureVisible();
+            lastPressOperation = false;
         }
 
         private void numberButton(string buttonValue)
@@ -151,21 +123,30 @@ namespace CSharpCalculator
                     resultText.Text = displayResult("0" + buttonValue);
                 lastPressOperation = false;
             }
-            else if (resultText.Text.Replace(".","").Length < 9)
-                // Only accept new characters on the number if less than 10 digits, excluding the decimal
+            else
             {
-                if (buttonValue != ".")
-                    // Otherwise, if the new input is numeric:
-                    if (resultText.Text == "0")
-                        // Use as the start of the new number if current number is 0
-                        resultText.Text = displayResult(buttonValue);
-                    else
-                        // Append to current number if current number is not 0
-                        resultText.Text = displayResult(resultText.Text + buttonValue);
-                else if (!resultText.Text.Contains("."))
-                    // If new input is a decimal, append to current number only if there isn't one already
-                    resultText.Text = displayResult(resultText.Text + buttonPeriod.Text);
+                string testLen = resultText.Text.Replace(".", "");
+                testLen = testLen.Replace(",", "");
+                testLen = testLen.Replace("-", "");
+
+                if (testLen.Length < 16)
+                    // Only accept new characters on the number if less than 15 significant digits
+                {
+                    if (buttonValue != ".")
+                        // If the new input is numeric:
+                        if (resultText.Text == "0")
+                            // If current display number is 0, replace with input number
+                            resultText.Text = displayResult(buttonValue);
+                        else
+                            // If current display number is not 0, append input number
+                            resultText.Text = displayResult(resultText.Text + buttonValue);
+                    else if (!resultText.Text.Contains("."))
+                        // If new input is a decimal, and current display number does not have a decimal
+                        // already, append decimal to current display number
+                        resultText.Text = displayResult(resultText.Text + buttonPeriod.Text);
+                }
             }
+                
         }
 
         private void operationButton (string opButtonValue)
@@ -199,15 +180,82 @@ namespace CSharpCalculator
             }
         }
 
-        private string displayResult(string input)
+        private void calculate(string operation)
         {
-            if (input.Length > 9)
-                if (input.Contains("."))
-                    return input.Substring(0, 10);
-                else
-                    return input.Substring(0, 9);
+            // Calculates the new total and displayed result based on the last operation button pressed.
+            if (operation == "=")
+                historyView.Items.Add(resultText.Text + " =");
             else
-                return input;
+                historyView.Items.Add(displayResult(total.ToString()) + operation + resultText.Text + " =");
+            switch (operation)
+            {
+                case "+":
+                    total += double.Parse(resultText.Text);
+                    break;
+                case "-":
+                    total -= double.Parse(resultText.Text);
+                    break;
+                case "*":
+                    total *= double.Parse(resultText.Text);
+                    break;
+                case "/":
+                    total /= double.Parse(resultText.Text);
+                    break;
+                case "=":
+                    total = double.Parse(resultText.Text);
+                    break;
+            }
+            resultText.Text = displayResult(total.ToString());
+            historyView.Items.Add("             " + resultText.Text);
+            historyView.Items[historyView.Items.Count - 1].EnsureVisible();
+        }
+
+        private string displayResult(string result)
+        {
+            // Takes a string input which may have negative signs and/or periods, and which may have missing or
+            // misplaced commas. Returns a string output with the same negative signs and periods, but appropriately
+            // placed commas.
+
+            // Strip those commas
+            result = result.Replace(",", "");
+
+            // Strip the leading minus sign if present, and flag that we'll need to return it later
+            bool isNegative = result[0].Equals("-");
+            if (isNegative)
+                result = result.Substring(1);
+
+            // Figure out where the decimal value is. If it's the last value in the string, flag it, since
+            // converting to number and back to string will lose it
+            int decimalPosition = result.IndexOf(".");
+            bool noDecimal = (decimalPosition == -1);
+
+            // If there wasn't a decimal, set its "position" at the end of the number string. Number input
+            // currently prevents overlong integers from being entered, but the computer's built in scientific
+            // notation is currently allowed in output to manage overlong results
+            if (noDecimal)
+                decimalPosition = result.Length;
+
+            // Copy pre-decimal characters to a new string, adding commas every 3 characters before the decimal
+            string newResult = "";
+            int commaPosition = decimalPosition % 3;
+
+            for (int i = 0; i < decimalPosition; i++)
+            {
+                newResult += result[i];
+
+                if (decimalPosition - i > 3 & commaPosition == 1)
+                    newResult += ",";
+                commaPosition = (commaPosition + 2) % 3;
+            }
+
+            if (!noDecimal)
+                newResult += result.Substring(decimalPosition);
+
+            if (isNegative)
+                newResult = "-" + newResult;
+
+            return newResult;
+
         }
 
         private void buttonHistory_Click(object sender, EventArgs e)
