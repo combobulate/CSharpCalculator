@@ -56,10 +56,10 @@ namespace CSharpCalculator
             // 
             // resultText
             // 
-            this.resultText.Font = new System.Drawing.Font("Microsoft Sans Serif", 26F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.resultText.Location = new System.Drawing.Point(30, 20);
+            this.resultText.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resultText.Location = new System.Drawing.Point(30, 28);
             this.resultText.Name = "resultText";
-            this.resultText.Size = new System.Drawing.Size(210, 47);
+            this.resultText.Size = new System.Drawing.Size(210, 26);
             this.resultText.TabIndex = 0;
             // 
             // button1
