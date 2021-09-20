@@ -245,6 +245,8 @@ namespace CSharpCalculator
 
                 if (decimalPosition - i > 3 & commaPosition == 1)
                     newResult += ",";
+
+                // Counts down 2, 1, 0, 2, 1, 0 ... to place commas at every 1.
                 commaPosition = (commaPosition + 2) % 3;
             }
 
